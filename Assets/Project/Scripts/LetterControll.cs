@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class LetterControll : MonoBehaviour
 {
-   // public Sprite[] allLetters;
-    public List<Sprite> allLetters;
-    public GameObject prefLetterButton;
+    public ScriptableObjectItems SOItems;
+    public List<Sprite> allItems;
+    public GameObject prefItemButton;
 
-    public GameObject panelLetterButtons;
+    public GameObject panelItemButtons;
 
 
 
@@ -17,13 +17,13 @@ public class LetterControll : MonoBehaviour
     private Sprite thisQuest;
     private int thisQuestIndex;
 
-    public int firstQuest, secondQuest, thirdQuest;
-    public bool _first, _second, _third;
+    private int firstQuest, secondQuest, thirdQuest;
+    private bool _first, _second, _third;
 
-    public int _whatIsLevel;
+    private int _whatIsLevel;
 
     private GameObject questGO;
-    public List<GameObject> otherLettersGO;
+    public List<GameObject> otherItemsGO;
 
     public GameObject restartLevelButton;
 
@@ -33,6 +33,7 @@ public class LetterControll : MonoBehaviour
 
     void Start()
     {
+        allItems = SOItems.allItems;
         StartCoroutine("GetQuestIE");
     }
 
@@ -44,7 +45,7 @@ public class LetterControll : MonoBehaviour
 
     IEnumerator GetQuestIE()
     {
-        int rndQuest = Random.Range(0, allLetters.Count);
+        int rndQuest = Random.Range(0, allItems.Count);
         Debug.Log("RndQuest = " + rndQuest);
         if(!_first)
         {
@@ -55,7 +56,7 @@ public class LetterControll : MonoBehaviour
         {
             while(rndQuest == firstQuest)
             {
-                rndQuest = Random.Range(0, allLetters.Count);
+                rndQuest = Random.Range(0, allItems.Count);
             }
             TakeQuestLetter(rndQuest);
             yield return 0;
@@ -64,7 +65,7 @@ public class LetterControll : MonoBehaviour
         {
             while(rndQuest == firstQuest || rndQuest == secondQuest)
             {
-                rndQuest = Random.Range(0, allLetters.Count);
+                rndQuest = Random.Range(0, allItems.Count);
             }
             TakeQuestLetter(rndQuest);
             yield return 0;
@@ -77,12 +78,12 @@ public class LetterControll : MonoBehaviour
     private void TakeQuestLetter(int i)
     {
         thisQuestIndex = i;
-        thisQuest = allLetters[i];
+        thisQuest = allItems[i];
 
-        questGO = Instantiate(prefLetterButton, panelLetterButtons.transform);
+        questGO = Instantiate(prefItemButton, panelItemButtons.transform);
         questGO.GetComponent<Button>().onClick.AddListener(ClickQuestButton);
         GameObject questImageGO = questGO.transform.GetChild(0).gameObject;
-        questImageGO.GetComponent<Image>().sprite = allLetters[i];
+        questImageGO.GetComponent<Image>().sprite = allItems[i];
 
         if(!_first)
         {
@@ -119,51 +120,51 @@ public class LetterControll : MonoBehaviour
             case 1:
                 for(int i = 0; i < 2; i++)
                 {
-                    int rndOtherLetter = Random.Range(0, allLetters.Count);
+                    int rndOtherLetter = Random.Range(0, allItems.Count);
                     while(rndOtherLetter == firstQuest || otherGO1 == rndOtherLetter)
                     {
-                        rndOtherLetter = Random.Range(0, allLetters.Count);
+                        rndOtherLetter = Random.Range(0, allItems.Count);
                     }
                     if(i == 0) otherGO1 = rndOtherLetter;
-                    GameObject otherLetterGO = Instantiate(prefLetterButton, panelLetterButtons.transform);
+                    GameObject otherLetterGO = Instantiate(prefItemButton, panelItemButtons.transform);
                     otherLetterGO.GetComponent<Button>().onClick.AddListener(ClickOtherLetterButton);
-                    otherLettersGO.Add(otherLetterGO);
+                    otherItemsGO.Add(otherLetterGO);
                     GameObject otherLetterImageGO = otherLetterGO.transform.GetChild(0).gameObject;
-                    otherLetterImageGO.GetComponent<Image>().sprite = allLetters[rndOtherLetter];
+                    otherLetterImageGO.GetComponent<Image>().sprite = allItems[rndOtherLetter];
                     Debug.Log("Spawn other letter - " + otherLetterImageGO.GetComponent<Image>().sprite.name + " - " + rndOtherLetter);
                 }
             break;
             case 2:
                 for(int i = 0; i < 5; i++)
                 {
-                    int rndOtherLetter = Random.Range(0, allLetters.Count);
+                    int rndOtherLetter = Random.Range(0, allItems.Count);
                     while(rndOtherLetter == secondQuest || otherGO1 == rndOtherLetter || otherGO2 == rndOtherLetter || otherGO3 == rndOtherLetter
                     || otherGO4 == rndOtherLetter || otherGO5 == rndOtherLetter)
                     {
-                        rndOtherLetter = Random.Range(0, allLetters.Count);
+                        rndOtherLetter = Random.Range(0, allItems.Count);
                     }
                     if(i == 0) otherGO1 = rndOtherLetter;
                     if(i == 1) otherGO2 = rndOtherLetter;
                     if(i == 2) otherGO3 = rndOtherLetter;
                     if(i == 3) otherGO4 = rndOtherLetter;
                     if(i == 4) otherGO5 = rndOtherLetter;
-                    GameObject otherLetterGO = Instantiate(prefLetterButton, panelLetterButtons.transform);
+                    GameObject otherLetterGO = Instantiate(prefItemButton, panelItemButtons.transform);
                     otherLetterGO.GetComponent<Button>().onClick.AddListener(ClickOtherLetterButton);
-                    otherLettersGO.Add(otherLetterGO);
+                    otherItemsGO.Add(otherLetterGO);
                     GameObject otherLetterImageGO = otherLetterGO.transform.GetChild(0).gameObject;
-                    otherLetterImageGO.GetComponent<Image>().sprite = allLetters[rndOtherLetter];
+                    otherLetterImageGO.GetComponent<Image>().sprite = allItems[rndOtherLetter];
                     Debug.Log("Spawn other letter - " + otherLetterImageGO.GetComponent<Image>().sprite.name + " - " + rndOtherLetter);
                 }
             break;
             case 3:
                 for(int i = 0; i < 8; i++)
                 {
-                    int rndOtherLetter = Random.Range(0, allLetters.Count);
+                    int rndOtherLetter = Random.Range(0, allItems.Count);
                     while(rndOtherLetter == thirdQuest|| otherGO1 == rndOtherLetter || otherGO2 == rndOtherLetter || otherGO3 == rndOtherLetter
                     || otherGO4 == rndOtherLetter || otherGO5 == rndOtherLetter || otherGO6 == rndOtherLetter || otherGO7 == rndOtherLetter
                     || otherGO8 == rndOtherLetter)
                     {
-                        rndOtherLetter = Random.Range(0, allLetters.Count);
+                        rndOtherLetter = Random.Range(0, allItems.Count);
                     }
                     if(i == 0) otherGO1 = rndOtherLetter;
                     if(i == 1) otherGO2 = rndOtherLetter;
@@ -173,11 +174,11 @@ public class LetterControll : MonoBehaviour
                     if(i == 5) otherGO6 = rndOtherLetter;
                     if(i == 6) otherGO7 = rndOtherLetter;
                     if(i == 7) otherGO8 = rndOtherLetter;
-                    GameObject otherLetterGO = Instantiate(prefLetterButton, panelLetterButtons.transform);
+                    GameObject otherLetterGO = Instantiate(prefItemButton, panelItemButtons.transform);
                     otherLetterGO.GetComponent<Button>().onClick.AddListener(ClickOtherLetterButton);
-                    otherLettersGO.Add(otherLetterGO);
+                    otherItemsGO.Add(otherLetterGO);
                     GameObject otherLetterImageGO = otherLetterGO.transform.GetChild(0).gameObject;
-                    otherLetterImageGO.GetComponent<Image>().sprite = allLetters[rndOtherLetter];
+                    otherLetterImageGO.GetComponent<Image>().sprite = allItems[rndOtherLetter];
                     Debug.Log("Spawn other letter - " + otherLetterImageGO.GetComponent<Image>().sprite.name + " - " + rndOtherLetter);
                 }
             break;
@@ -210,11 +211,11 @@ public class LetterControll : MonoBehaviour
     {
         Debug.Log("Click quest button");
         Destroy(questGO);
-        for(int i = 0; i < otherLettersGO.Count; i++)
+        for(int i = 0; i < otherItemsGO.Count; i++)
         {
-            Destroy(otherLettersGO[i]);
+            Destroy(otherItemsGO[i]);
         }
-        otherLettersGO.Clear();
+        otherItemsGO.Clear();
 
         if(_whatIsLevel == 3)
             RestartLevels();
@@ -253,8 +254,8 @@ public class LetterControll : MonoBehaviour
 
     private void TakeLettersForString(string questLetter)
     {
-        thisQuest = allLetters.Find(p => p.name == questLetter);
-        thisQuestIndex = allLetters.FindIndex(p => p.name == questLetter);
+        thisQuest = allItems.Find(p => p.name == questLetter);
+        thisQuestIndex = allItems.FindIndex(p => p.name == questLetter);
 
         if(!_first)
         {
