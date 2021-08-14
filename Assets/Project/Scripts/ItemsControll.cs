@@ -8,7 +8,7 @@ public class ItemsControll : MonoBehaviour
     private UIControll UIControll;
     public ScriptableObjectItems[] ScriptableObjectItems;
     public ScriptableObjectItems SOItems;
-    public ScriptableObjectLevels[] levels;
+    private ScriptableObjectLevels[] levels;
 
     public List<Sprite> allItems;
     public GameObject prefItemButton;
@@ -25,8 +25,14 @@ public class ItemsControll : MonoBehaviour
 
     public List<int> othersIndex;
 
+    private int otherItemButtonIndex;
+
+    public ParticleSystem particle;
+
     void Start()
     {
+        particle.Stop();
+
         UIControll = gameObject.GetComponent<UIControll>();
 
         int rndItems = Random.Range(0, ScriptableObjectItems.Length);
@@ -60,7 +66,7 @@ public class ItemsControll : MonoBehaviour
                 _whatIsLevel = i;
                 
                 RectTransform rt = panelItemButtons.GetComponent<RectTransform>() as RectTransform;
-                rt.sizeDelta = new Vector2 (levels[i]._countPilars * (10 + 100), levels[i]._countLines * (10 + 100));
+                rt.sizeDelta = new Vector2 (levels[i]._countPilars * (20 + 200), levels[i]._countLines * (20 + 200));
 
                 if(i == 0)
                 {
@@ -135,6 +141,7 @@ public class ItemsControll : MonoBehaviour
         thisQuest = allItems[i];
 
         questGO = Instantiate(prefItemButton, panelItemButtons.transform);
+        questGO.name = "Quest";
         questGO.GetComponent<Button>().onClick.AddListener(ClickQuestButton);
         GameObject questImageGO = questGO.transform.GetChild(0).gameObject;
         questImageGO.GetComponent<Image>().sprite = allItems[i];
@@ -159,10 +166,12 @@ public class ItemsControll : MonoBehaviour
                 rndOtherItem = Random.Range(0, allItems.Count);
             }
             othersIndex.Add(rndOtherItem);
-            GameObject otherLetterGO = Instantiate(prefItemButton, panelItemButtons.transform);
-            otherLetterGO.GetComponent<Button>().onClick.AddListener(ClickOtherLetterButton);
-            otherItemsGO.Add(otherLetterGO);
-            GameObject otherLetterImageGO = otherLetterGO.transform.GetChild(0).gameObject;
+            GameObject otherItemGO = Instantiate(prefItemButton, panelItemButtons.transform);
+            otherItemGO.name = w.ToString();
+            int index = w;
+            otherItemGO.GetComponent<Button>().onClick.AddListener(() => {ClickOtherItemButton(index);});
+            otherItemsGO.Add(otherItemGO);
+            GameObject otherLetterImageGO = otherItemGO.transform.GetChild(0).gameObject;
             otherLetterImageGO.GetComponent<Image>().sprite = allItems[rndOtherItem];
             Debug.Log("Spawn other letter - " + otherLetterImageGO.GetComponent<Image>().sprite.name + " - " + rndOtherItem);
         }
@@ -176,11 +185,41 @@ public class ItemsControll : MonoBehaviour
         int rndIndex = Random.Range(0, countCells);
         questGO.transform.SetSiblingIndex(rndIndex);
         Debug.Log("Change index quest - " + rndIndex);
+
+        int rndCorner = Random.Range(0, 4);
+        switch(rndCorner)
+        {
+            case 0:
+                panelItemButtons.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.UpperLeft;
+            break;
+            case 1:
+                panelItemButtons.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.UpperRight;
+            break;
+            case 2:
+                panelItemButtons.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.LowerLeft;
+            break;
+            case 3:
+                panelItemButtons.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.LowerRight;
+            break;
+        }
+        
     }
 
     public void ClickQuestButton()
     {
         Debug.Log("Click quest button");
+
+        questGO.GetComponent<Animator>().SetBool("Bounce", true);
+        particle.Play();
+        Invoke("QuestButtonResetBounce", 0.45f);
+
+        Invoke("QuestComplete", 1.5f);
+    }
+
+    private void QuestComplete()
+    {
+        particle.Stop();
+
         Destroy(questGO);
         for(int i = 0; i < otherItemsGO.Count; i++)
         {
@@ -196,9 +235,23 @@ public class ItemsControll : MonoBehaviour
         StartCoroutine("GetQuestIE");
     }
 
-    public void ClickOtherLetterButton()
+    private void QuestButtonResetBounce()
     {
-        Debug.Log("Click other letter button");
+        questGO.GetComponent<Animator>().SetBool("Bounce", false);
+    }
+
+    public void ClickOtherItemButton(int i)
+    {
+        otherItemButtonIndex = i;
+        otherItemsGO[i].GetComponent<Animator>().SetBool("easeInBounce", true);
+        Invoke("OtherItemButtonResetBounce", 0.45f);
+        
+        Debug.Log("Click other Item button");
+
+    }
+    public void OtherItemButtonResetBounce()
+    {
+        otherItemsGO[otherItemButtonIndex].GetComponent<Animator>().SetBool("easeInBounce", false);
     }
 
     private void RestartLevels()

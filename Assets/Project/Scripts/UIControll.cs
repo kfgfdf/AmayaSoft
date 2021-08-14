@@ -8,6 +8,7 @@ public class UIControll : MonoBehaviour
     private ItemsControll ItemsControll;
     public Text nameQuestText;
     public GameObject restartLevelButton;
+    public GameObject BGIMGrofl;
 
     private void Start() 
     {
@@ -22,12 +23,15 @@ public class UIControll : MonoBehaviour
 
     public void RestartLevelsUI()
     {
+        BGIMGrofl.GetComponent<Animator>().SetBool("start", true);
         restartLevelButton.SetActive(true);
     }
+
 
     public void ClickRestartLevelsUI()
     {
         restartLevelButton.SetActive(false);
         ItemsControll.RestartLevelsButton();
+        BGIMGrofl.GetComponent<Animator>().SetBool("start", false);
     }
 }
