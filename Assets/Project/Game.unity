@@ -358,8 +358,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 982578178}
-        m_MethodName: ClickRestartLevels
+      - m_Target: {fileID: 982578181}
+        m_MethodName: ClickRestartLevelsUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 982578180}
   - component: {fileID: 982578179}
   - component: {fileID: 982578178}
+  - component: {fileID: 982578181}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -675,21 +676,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba21ac1d0af17d4dba022f27cbf25bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SOItems: {fileID: 11400000, guid: df6132fd09428de48969dfa9aa622510, type: 2}
+  ScriptableObjectItems:
+  - {fileID: 11400000, guid: b4817c6c9a8c36c41b975e0dd2d70fff, type: 2}
+  - {fileID: 11400000, guid: df6132fd09428de48969dfa9aa622510, type: 2}
+  SOItems: {fileID: 0}
+  levels: []
   allItems: []
   prefItemButton: {fileID: 8752962267498988885, guid: f2b92d0906283034ea06bf75099461ca,
     type: 3}
   panelItemButtons: {fileID: 1934930610}
-  firstQuest: 0
-  secondQuest: 0
-  thirdQuest: 0
-  _first: 0
-  _second: 0
-  _third: 0
-  _whatIsLevel: 0
   otherItemsGO: []
-  restartLevelButton: {fileID: 283796674}
-  nameQuestText: {fileID: 843757194}
+  othersIndex: 
 --- !u!114 &982578179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,6 +713,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &982578181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982578177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f44dc1e77e1eb4da21b6da34705bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameQuestText: {fileID: 843757194}
+  restartLevelButton: {fileID: 283796674}
 --- !u!1 &1359902158
 GameObject:
   m_ObjectHideFlags: 0

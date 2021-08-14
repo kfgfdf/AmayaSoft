@@ -39,3 +39,7 @@ MonoBehaviour:
   - {fileID: 4461586319009975920, guid: 3febc29cfe0357547b42482876e2b5b7, type: 3}
   - {fileID: -5001085640463096552, guid: 767aa9adb6ba96c4aa5939728ccbc105, type: 3}
   - {fileID: 3539555106843919260, guid: 767aa9adb6ba96c4aa5939728ccbc105, type: 3}
+  ScriptableObjectLevels:
+  - {fileID: 11400000, guid: 4fc3f8380b2833642806f9772bc8928f, type: 2}
+  - {fileID: 11400000, guid: 635febbf8d978414ea379b098f72b819, type: 2}
+  - {fileID: 11400000, guid: c2f1edd03cdfc5d4980173dfe1da5376, type: 2}
